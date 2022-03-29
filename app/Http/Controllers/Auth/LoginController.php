@@ -35,7 +35,7 @@ class LoginController extends Controller
      *
      * @return void
      */
-   public function login(Request $request)
+    public function login(Request $request)
     {
         $this->validateLogin($request);
 
@@ -50,20 +50,20 @@ class LoginController extends Controller
             if(Auth::user()->user_type == '1'){
                 return Redirect::route('admin.home')->with('alert-success', 'Login success! Please enjoy!!');
             }
-        //     elseif(Auth::user()->user_type == '2')
-        //     {
-        //         return Redirect::route('manager.home')->with('alert-success', 'Login success! Please enjoy!!');
-        //     }
-        //     else{
-        //         return Redirect::route('login')->with('alert-success', 'Login success! Please enjoy!!');
-        //     }
-        }
-        // else {
-        //     $this->incrementLoginAttempts($request);
-        //     return Redirect::route('login')->with('alert-danger', 'Your username or password do not match!!');
-        // }
-
+            elseif(Auth::user()->user_type == '2')
+            {
+                return Redirect::route('user.home')->with('alert-success', 'Login success! Please enjoy!!');
+            }
+            else{
+             return Redirect::route('login')->with('alert-success', 'Login success! Please enjoy!!');
+         }
+     }
+     else {
         $this->incrementLoginAttempts($request);
-        return $this->sendFailedLoginResponse($request);
+        return Redirect::route('login')->with('alert-danger', 'Your username or password do not match!!');
     }
+
+    $this->incrementLoginAttempts($request);
+    return $this->sendFailedLoginResponse($request);
+}
 }
